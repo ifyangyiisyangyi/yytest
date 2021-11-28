@@ -1,39 +1,41 @@
 <template>
-  <table border="3">
-    <tr>
-      <td>id</td>
-      <td>姓名</td>
-      <td>密码</td>
-      <td>操作</td>
-    </tr>
-    <tr v-for="user in users">
-      <td>{{ user.id }}</td>
-      <td>{{ user.name }}</td>
-      <td>{{ user.password }}</td>
-      <td><a href="">删除</a></td>
-    </tr>
-  </table>
+  <el-carousel :interval="4000" type="card" height="500px">
+    <el-carousel-item v-for="item in imgs" :key="item">
+          <el-image
+      :src="item"
+      style="height:500px "
+      fit="fill"></el-image>
+    </el-carousel-item>
+  </el-carousel>
 </template>
 
+
 <script>
+import img1 from "../assets/img/img1.jpg";
+import img2 from "../assets/img/img2.jpg";
 export default {
+  name: "Home",
   data() {
     return {
-      users: [],
+      imgs: [img1, img2],
     };
-  },
-  methods: {},
-  components: {},
-  created() {
-    this.$http
-      .get("http://rap2api.taobao.org/app/mock/data/2146726")
-      .then((res) => {
-        this.users = res.data.result;
-        console.log(this.users);
-      });
   },
 };
 </script>
-
 <style>
+.el-carousel__item h3 {
+  color: #475669;
+  font-size: 14px;
+  opacity: 0.75;
+  line-height: 200px;
+  margin: 0;
+}
+
+.el-carousel__item:nth-child(2n) {
+  background-color: #99a9bf;
+}
+
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
+}
 </style>
