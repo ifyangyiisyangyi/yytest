@@ -1,16 +1,15 @@
 <template>
   <el-row>
     <el-col
-      :span="2"
-      v-for="(o, index) in 2"
+      :span="5"
+      v-for="(o, index) in data"
       :key="o"
-      :offset="index > 0 ? 2 : 0"
     >
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <span>订单</span>
+          <span>{{index}}</span>
         </div>
-        <div v-for="(value, name) in data" class="text item">
+        <div v-for="(value, name) in o" class="text item">
           {{ name }} : {{ value }}
         </div>
       </el-card>
@@ -23,14 +22,23 @@ export default {
   data() {
     return {
       data: {
-        UnknowStatus: 0,
-        Unpaid: 1,
-        Cancelled: 2,
-        Paid: 3,
-        Expired: 4,
-        Shipped: 5,
-        Received: 6,
-        Complete: 7,
+        order: {
+          UnknowStatus: 0,
+          Unpaid: 1,
+          Cancelled: 2,
+          Paid: 3,
+          Expired: 4,
+          Shipped: 5,
+          Received: 6,
+          Complete: 7,
+        },
+        refundOrder: {
+          UnknowState: 0,
+          ToBeReviewed: 1,
+          ToBeRefounded: 2,
+          Refounded: 3,
+          Failed: 4,
+        },
       },
     };
   },
