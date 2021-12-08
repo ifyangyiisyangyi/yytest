@@ -18,11 +18,19 @@ module.exports = {
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
+    proxy: {
+      '/': {
+        target: '/',
+        ws: true,
+        secure: false, // 如果是https接口，需要配置这个参数
+        changeOrigin: true,
+      }
+    },
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
-    
+
     /**
-     * Source Maps
+     * Source Mapsx
      */
 
     // https://webpack.js.org/configuration/devtool/#development

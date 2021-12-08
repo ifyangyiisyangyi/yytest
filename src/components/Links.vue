@@ -13,18 +13,7 @@ export default {
   data() {
     return {
       links: [
-        {
-          id: "1",
-          name: "百度",
-          link: "https://www.baidu.com",
-          describe: "百度链接",
-        },
-        {
-          id: "2",
-          name: "谷歌",
-          link: "https://www.google.com",
-          describe: "谷歌链接",
-        }
+        
       ],
     };
   },
@@ -32,20 +21,7 @@ export default {
     this.$http
       .get("http://rap2api.taobao.org/app/mock/data/2146859")
       .then((res) => {
-        this.links = [
-        {
-          id: "1",
-          name: "百度",
-          link: "https://www.baidu.com",
-          describe: "百度链接",
-        },
-        {
-          id: "2",
-          name: "谷歌",
-          link: "https://www.google.com",
-          describe: "谷歌链接",
-        }
-      ];
+        this.links = res.data.result;
         console.log(this.links);
         console.log(res.data.result);
       });
