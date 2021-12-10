@@ -17,11 +17,18 @@ export default {
       links: [],
     };
   },
-  created() {
+  // created() {
+  //   this.$http
+  //     .get("http://rap2api.taobao.org/app/mock/data/2146859")
+  //     .then((res) => {
+  //       this.links = res.data.result;
+  //     });
+  // },
+    created() {
     this.$http
-      .get("http://rap2api.taobao.org/app/mock/data/2146859")
+      .get("http://yycode.com.cn:8030/linkages")
       .then((res) => {
-        this.links = res.data.result;
+        this.links = res.data;
       });
   },
 };
