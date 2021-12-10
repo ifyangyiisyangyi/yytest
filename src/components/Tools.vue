@@ -1,13 +1,9 @@
 <template>
   <el-row>
-    <el-col
-      :span="5"
-      v-for="(o, index) in data"
-      :key="o"
-    >
+    <el-col :span="5" v-for="(o, index) in data" :key="index">
       <el-card class="box-card">
         <div slot="header" class="clearfix">
-          <span>{{index}}</span>
+          <span>{{ index }}</span>
         </div>
         <div v-for="(value, name) in o" class="text item">
           {{ name }} : {{ value }}
@@ -21,26 +17,15 @@
 export default {
   data() {
     return {
-      data: {
-        order: {
-          UnknowStatus: 0,
-          Unpaid: 1,
-          Cancelled: 2,
-          Paid: 3,
-          Expired: 4,
-          Shipped: 5,
-          Received: 6,
-          Complete: 7,
-        },
-        refundOrder: {
-          UnknowState: 0,
-          ToBeReviewed: 1,
-          ToBeRefounded: 2,
-          Refounded: 3,
-          Failed: 4,
-        },
-      },
+      data: {},
     };
+  },
+  created() {
+    this.$http
+      .get("http://rap2api.taobao.org/app/mock/data/2158617")
+      .then((res) => {
+        this.data = res.data;
+      });
   },
 };
 </script>
