@@ -10,7 +10,15 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/': {
+        target: "http://yycode.com.cn:8030",
+        changeOrigin: true,
+        pathRewrite: {
+          '^/': ''
+        }
+      }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
@@ -18,14 +26,6 @@ module.exports = {
     autoOpenBrowser: false,
     errorOverlay: true,
     notifyOnErrors: true,
-    proxy: {
-      '/': {
-        target: '/',
-        ws: true,
-        secure: false, // 如果是https接口，需要配置这个参数
-        changeOrigin: true,
-      }
-    },
     poll: false, // https://webpack.js.org/configuration/dev-server/#devserver-watchoptions-
 
 
