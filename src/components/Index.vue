@@ -26,7 +26,7 @@ export default {
   // },
     created() {
     this.$http
-      .get("http://yycode.com.cn:8030/linkages")
+      .get("http://yycode.com.cn:8030/linkage/list")
       .then((res) => {
         this.links = res.data;
       });
