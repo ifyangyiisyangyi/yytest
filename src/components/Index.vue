@@ -31,7 +31,7 @@ export default {
   methods: {
     del(id) {
       this.$http
-        .get("http://localhost:8030/linkage/del?id=" + id)
+        .get("http://yycode.com.cn:8030/linkage/del?id=" +id )
         .then((res) => {
           this.res = res.data;
           if (res.data == true) {
