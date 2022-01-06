@@ -126,7 +126,12 @@ export default {
           .post("http://yycode.com.cn:8030/linkage/add", params)
           .then((res) => {
             this.res = res.data;
-            alert("添加成功");
+            alert("添加成功"); // alert 是异步的， mark：可以把接口调用的返回结果再赋值给data里的数据
+            this.$http
+              .get("http://yycode.com.cn:8030/linkage/list")
+              .then((res) => {
+                this.links = res.data;
+              });
           });
       } else {
         console.log("编辑时的id是" + form.id);
@@ -135,11 +140,14 @@ export default {
           .then((res) => {
             this.res = res.data;
             alert("更新成功");
+            this.$http
+              .get("http://yycode.com.cn:8030/linkage/list")
+              .then((res) => {
+                this.links = res.data;
+              });
           });
       }
-      this.$http.get("http://yycode.com.cn:8030/linkage/list").then((res) => {
-        this.links = res.data;
-      });
+
       this.dialogVisible = false;
     },
     del(id) {
