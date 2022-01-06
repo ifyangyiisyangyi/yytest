@@ -1,11 +1,8 @@
 <template>
   <div>
     <div>
-      <el-button @click="dialogVisible = true" type="primary" plain size="mini"
-        >新增</el-button
-      >
+      <el-button @click="add" type="primary" plain size="mini">新增</el-button>
       <el-table :data="links" style="width: 100%">
-        <el-table-column prop="id" label="id" width="180"> </el-table-column>
         <el-table-column prop="name" label="名称" width="180">
         </el-table-column>
         <el-table-column label="链接" width="300">
@@ -21,7 +18,7 @@
         <el-table-column label="操作" width="240">
           <template slot-scope="scope">
             <el-button
-              @click="dialogVisible = true"
+              @click="edit(scope.$index, scope.row)"
               type="primary"
               plain
               size="mini"
@@ -47,7 +44,7 @@
     </div>
     <div>
       <el-dialog
-        title="新增"
+        :title="title"
         :visible.sync="dialogVisible"
         width="30%"
         :before-close="handleClose"
@@ -65,9 +62,7 @@
         </el-form>
         <span slot="footer" class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
-          <el-button type="primary" @click="dialogVisible = false"
-            >确 定</el-button
-          >
+          <el-button type="primary" @click="createData()">确 定</el-button>
         </span>
       </el-dialog>
     </div>
@@ -80,6 +75,7 @@ export default {
     return {
       links: [],
       dialogVisible: false,
+      title: null,
       form: {
         id: "",
         name: "",
@@ -95,6 +91,57 @@ export default {
     });
   },
   methods: {
+    add() {
+      this.title = "新增";
+      this.form = {
+        name: "",
+        link: "",
+        describe: "",
+      };
+      this.dialogVisible = true;
+    },
+    edit(index, row) {
+      this.title = "编辑";
+      this.form.id = row.id;
+      this.form.name = row.name;
+      this.form.link = row.link;
+      this.form.describe = row.describe;
+      console.log(index, row.id);
+
+      this.dialogVisible = true;
+    },
+    createData() {
+      let form = null;
+      form = this.form;
+      const params = {
+        id: form.id,
+        name: form.name,
+        link: form.link,
+        describe: form.describe,
+      };
+      // 用id是否为空判断调用add还是update
+      if (!form.id) {
+        console.log("添加时的id是:" + form.id);
+        this.$http
+          .post("http://yycode.com.cn:8030/linkage/add", params)
+          .then((res) => {
+            this.res = res.data;
+            alert("添加成功");
+          });
+      } else {
+        console.log("编辑时的id是" + form.id);
+        this.$http
+          .post("http://yycode.com.cn:8030/linkage/update", params)
+          .then((res) => {
+            this.res = res.data;
+            alert("更新成功");
+          });
+      }
+      this.$http.get("http://yycode.com.cn:8030/linkage/list").then((res) => {
+        this.links = res.data;
+      });
+      this.dialogVisible = false;
+    },
     del(id) {
       this.$http
         .get("http://yycode.com.cn:8030/linkage/del?id=" + id)
