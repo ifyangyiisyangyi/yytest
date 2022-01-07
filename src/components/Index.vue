@@ -87,7 +87,7 @@ export default {
   // 不要在created中执行初始化方法,尽量用mounted()
   mounted() {
     this.$http.get("http://yycode.com.cn:8030/linkage/list").then((res) => {
-      this.links = res.data;
+      this.links = res.data.data;
     });
   },
   methods: {
