@@ -66,6 +66,18 @@
         </span>
       </el-dialog>
     </div>
+    <div>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-sizes="pageSizes"
+        :page-size="pageSize"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="totalCount"
+      >
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -82,15 +94,28 @@ export default {
         link: "",
         describe: "",
       },
+      currentPage: 1,
+      totalCount: 1,
+      pageSizes: [10, 30, 50, 100],
+      pageSize: 10,
     };
   },
   // 不要在created中执行初始化方法,尽量用mounted()
   mounted() {
-    this.$http.get("http://yycode.com.cn:8030/linkage/list").then((res) => {
-      this.links = res.data.data;
-    });
+    this.list(this.currentPage, this.pageSize);
   },
   methods: {
+    list(pageNum, pageSize) {
+      this.$http
+        .post("http://yycode.com.cn:8030/linkage/list", {
+          pageNum: pageNum,
+          pageSize: pageSize,
+        })
+        .then((res) => {
+          this.links = res.data.data.content;
+          this.totalCount = res.data.data.totalSize;
+        });
+    },
     add() {
       this.title = "新增";
       this.form = {
@@ -125,26 +150,18 @@ export default {
         this.$http
           .post("http://yycode.com.cn:8030/linkage/add", params)
           .then((res) => {
-            this.res = res.data;
+            this.res = res.data.data;
             alert("添加成功"); // alert 是异步的， mark：可以把接口调用的返回结果再赋值给data里的数据
-            this.$http
-              .get("http://yycode.com.cn:8030/linkage/list")
-              .then((res) => {
-                this.links = res.data;
-              });
+            this.list(this.currentPage, this.pageSize);
           });
       } else {
         console.log("编辑时的id是" + form.id);
         this.$http
           .post("http://yycode.com.cn:8030/linkage/update", params)
           .then((res) => {
-            this.res = res.data;
+            this.res = res.data.data;
             alert("更新成功");
-            this.$http
-              .get("http://yycode.com.cn:8030/linkage/list")
-              .then((res) => {
-                this.links = res.data;
-              });
+            this.list(this.currentPage, this.pageSize);
           });
       }
 
@@ -155,13 +172,13 @@ export default {
         .get("http://yycode.com.cn:8030/linkage/del?id=" + id)
         .then((res) => {
           this.res = res.data;
-          if (res.data == true) {
+          if (this.res.data == true) {
             alert("删除成功");
           }
           this.$http
             .get("http://yycode.com.cn:8030/linkage/list")
             .then((res) => {
-              this.links = res.data;
+              this.links = res.data.data;
             });
         });
     },
@@ -181,6 +198,16 @@ export default {
           done();
         })
         .catch((_) => {});
+    },
+    handleSizeChange(val) {
+      console.log(`每页 ${val} 条`);
+      this.pageSize = val;
+      this.list(this.currentPage, this.pageSize);
+    },
+    handleCurrentChange(val) {
+      console.log(`当前页: ${val}`);
+      this.currentPage = val;
+      this.list(this.currentPage, this.pageSize);
     },
   },
 };
