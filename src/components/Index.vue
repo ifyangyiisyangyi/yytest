@@ -118,8 +118,9 @@ export default {
           pageSize: pageSize,
         })
         .then((res) => {
-          this.links = res.data.data.content;
-          this.totalCount = res.data.data.totalSize;
+          this.links = res.data.data;
+          console.log(this.links)
+          this.totalCount = res.data.totalSize;
         });
     },
     add() {

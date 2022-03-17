@@ -8,6 +8,10 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import Notification from './components/Notification'
 
+// 引入echarts
+import * as echarts from 'echarts'
+Vue.prototype.$echarts = echarts
+
 Vue.prototype.$http = axios //修改内部的$http为axios
 Vue.config.productionTip = false
 Vue.use(ElementUI);
