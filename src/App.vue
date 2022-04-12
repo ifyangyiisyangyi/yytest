@@ -10,8 +10,11 @@
       >
         <el-menu-item index="/index">首页</el-menu-item>
         <el-menu-item index="/tools">工具</el-menu-item>
+        <el-menu-item index="/qaReport">测试报告</el-menu-item>
         <el-menu-item index="/home">轮播图</el-menu-item>
         <el-menu-item index="/echarts">echarts</el-menu-item>
+        <el-menu-item index="/login">登录</el-menu-item>
+
       </el-menu>
     </el-header>
     <el-main>

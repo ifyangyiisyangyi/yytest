@@ -2,7 +2,7 @@
   <div>
     <div>
       <el-button @click="add" type="primary" plain>新增</el-button>
-      <el-table :data="links" style="width: 100%" height="800" border>
+      <el-table :data="links" style="width: 100%" height="580" border>
         <el-table-column prop="name" label="名称" width="180" align="center">
         </el-table-column>
         <el-table-column label="链接" width="500" align="center">
@@ -20,7 +20,7 @@
           </template>
         </el-table-column>
         <el-table-column
-          prop="describe"
+          prop="describes"
           label="描述"
           width="300"
           align="center"
@@ -61,7 +61,7 @@
             <el-input v-model="form.link"></el-input>
           </el-form-item>
           <el-form-item label="描述" label-width="50px">
-            <el-input v-model="form.describe"></el-input>
+            <el-input v-model="form.describes"></el-input>
           </el-form-item>
         </el-form>
         <span slot="footer" class="dialog-footer">
@@ -98,7 +98,7 @@ export default {
         id: "",
         name: "",
         link: "",
-        describe: "",
+        describes: "",
       },
       currentPage: 1,
       totalCount: 1,
@@ -113,14 +113,21 @@ export default {
   methods: {
     list(pageNum, pageSize) {
       this.$http
-        .post("http://yycode.com.cn:8030/linkage/list", {
-          pageNum: pageNum,
-          pageSize: pageSize,
+        ({
+          method: "POST",
+          url:"http://yycode.com.cn:8030/link/list",
+          data:{
+            pageNum:this.currentPage,
+            pageSize:this.pageSize
+          },
+          headers :{
+            "token" : sessionStorage.getItem("token")
+          }
         })
         .then((res) => {
-          this.links = res.data.data;
+          this.links = res.data.data.records;
           console.log(this.links)
-          this.totalCount = res.data.totalSize;
+          this.totalCount = res.data.data.total;
         });
     },
     add() {
@@ -128,7 +135,7 @@ export default {
       this.form = {
         name: "",
         link: "",
-        describe: "",
+        describes: "",
       };
       this.dialogVisible = true;
     },
@@ -137,7 +144,7 @@ export default {
       this.form.id = row.id;
       this.form.name = row.name;
       this.form.link = row.link;
-      this.form.describe = row.describe;
+      this.form.describes = row.describes;
       console.log(index, row.id);
 
       this.dialogVisible = true;
@@ -149,15 +156,15 @@ export default {
         id: form.id,
         name: form.name,
         link: form.link,
-        describe: form.describe,
+        describes: form.describes,
       };
       // 用id是否为空判断调用add还是update
       if (!form.id) {
         console.log("添加时的id是:" + form.id);
         this.$http
-          .post("http://yycode.com.cn:8030/linkage/add", params)
+          .post("http://yycode.com.cn:8030/link/add", params)
           .then((res) => {
-            this.res = res.data.data;
+            this.res = res.data.data.records;
             // alert("添加成功"); // alert 是异步的， mark：可以把接口调用的返回结果再赋值给data里的数据
             this.open();
             
@@ -165,9 +172,9 @@ export default {
       } else {
         console.log("编辑时的id是" + form.id);
         this.$http
-          .post("http://yycode.com.cn:8030/linkage/update", params)
+          .post("http://yycode.com.cn:8030/link/update", params)
           .then((res) => {
-            this.res = res.data.data;
+            this.res = res.data.data.records;
             this.open();
           });
       }
@@ -176,7 +183,7 @@ export default {
     },
     del(id) {
       this.$http
-        .get("http://yycode.com.cn:8030/linkage/del?id=" + id)
+        .get("http://yycode.com.cn:8030/link/del?id=" + id)
         .then((res) => {
           this.res = res.data;
           if (this.res.data == true) {
