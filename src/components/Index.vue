@@ -112,23 +112,21 @@ export default {
   },
   methods: {
     list(pageNum, pageSize) {
-      this.$http
-        ({
-          method: "POST",
-          url:"http://yycode.com.cn:8030/link/list",
-          data:{
-            pageNum:this.currentPage,
-            pageSize:this.pageSize
-          },
-          headers :{
-            "token" : sessionStorage.getItem("token")
-          }
-        })
-        .then((res) => {
-          this.links = res.data.data.records;
-          console.log(this.links)
-          this.totalCount = res.data.data.total;
-        });
+      this.$http({
+        method: "POST",
+        url: "http://localhost:8030/link/list",
+        data: {
+          pageNum: this.currentPage,
+          pageSize: this.pageSize,
+        },
+        headers: {
+          token: sessionStorage.getItem("token"),
+        },
+      }).then((res) => {
+        this.links = res.data.data.records;
+        console.log(this.links);
+        this.totalCount = res.data.data.total;
+      });
     },
     add() {
       this.title = "新增";
@@ -167,12 +165,11 @@ export default {
             this.res = res.data.data.records;
             // alert("添加成功"); // alert 是异步的， mark：可以把接口调用的返回结果再赋值给data里的数据
             this.open();
-            
           });
       } else {
         console.log("编辑时的id是" + form.id);
         this.$http
-          .post("http://yycode.com.cn:8030/link/update", params)
+          .post("http://localhost:8030/link/update", params)
           .then((res) => {
             this.res = res.data.data.records;
             this.open();

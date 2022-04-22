@@ -13,6 +13,22 @@ import * as echarts from 'echarts'
 Vue.prototype.$echarts = echarts
 
 Vue.prototype.$http = axios //修改内部的$http为axios
+const instance = axios.create({
+  baseURL: "http://yycode.com.cn:8030",
+  timeout:2000
+})
+instance.interceptors.request.use(
+  config => {
+    if(localStorage.getItem('token')) {
+      config.headers.token = localStorage.getItem('token');
+    }
+    return config;
+  },
+  error => {
+    return Promise.reject(error);
+  }
+)
+export default instance
 Vue.config.productionTip = false
 Vue.use(ElementUI);
 
@@ -24,6 +40,5 @@ Vue.use(Notification)
 new Vue({
   el: '#app',
   router,
-  components: { App },
-  template: '<App/>'
+  render: h => h(App)
 })

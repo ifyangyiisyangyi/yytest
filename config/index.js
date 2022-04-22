@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/': {
-        target: "http://yycode.com.cn:8030",
+        target: "http://localhost:8030",    // 请求本地服务
         changeOrigin: true,
         pathRewrite: {
           '^/': ''
