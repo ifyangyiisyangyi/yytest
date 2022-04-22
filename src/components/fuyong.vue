@@ -1,7 +1,6 @@
 <template>
-          <el-aside width="200px">
-    <!-- 导航菜单 -->
-      <el-menu
+<div>
+   <el-menu
         :default-active="activeIndex"
         class="el-menu-demo"
         mode="vertical"
@@ -10,7 +9,7 @@
       >
         <el-menu-item index="/index">
           <i class="el-icon-s-home"></i>
-          <span slot="title">首页</span>
+          <router-link to="/home">首页</router-link>
         </el-menu-item>
         <el-submenu >
             <template slot="title">
@@ -23,20 +22,27 @@
               <el-menu-item index="/">工具四</el-menu-item>
         </el-submenu>
 
-        <el-menu-item index="/qaReport">
+        <el-menu-item>
           <i class="el-icon-document"></i>
-          <span>测试报告</span>
+          <router-link to="/qaReport">测试报告</router-link>
         </el-menu-item>
         <el-menu-item index="/home">
           <i class="el-icon-picture"></i>
           <span>轮播图</span>
         </el-menu-item>
-        <el-menu-item index="/echarts">
+        <el-menu-item>
           <i class="el-icon-s-data"></i>
-          <span>echarts</span>
+          <router-link to="/echarts">echarts</router-link>
         </el-menu-item>
         <!-- <el-menu-item index="/login">登录</el-menu-item> -->
       </el-menu>
     </el-submenu>
-    </el-aside>
+</div>
+
+  
 </template>
+<script>
+export default {
+  name: "fuyong",
+};
+</script>

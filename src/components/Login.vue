@@ -71,7 +71,7 @@ export default {
           localStorage.setItem("token", this.userToken);
           // 如果code为200则跳转到NewReport页面
           if (res.data.code === 200) {
-            this.$router.push('/home');
+            this.$router.push('/main');
             this.$message({
               message: "恭喜你，登录成功",
               type: "success",
