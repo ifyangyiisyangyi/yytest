@@ -1,6 +1,5 @@
 <template>
   <!-- 登录 -->
-
   <el-container>
     <div class="login_box">
       <el-form
@@ -8,8 +7,7 @@
         :rules="rules"
         ref="user"
         label-width="100px"
-        class="loginForm"
-      >
+        class="loginForm">
         <el-form-item label="用户名" prop="username">
           <el-input v-model="user.username"></el-input>
         </el-form-item>
@@ -40,7 +38,7 @@ export default {
         ],
         password: [
           { required: true, message: "请输入密码", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 20 个字符", trigger: "blur" },
+          { min: 3, max: 20, message: "长度在 3 到 20 个字符", trigger: "blur" },
         ],
       },
       user: {
@@ -65,19 +63,20 @@ export default {
         },
       })
         .then((res) => {
+
+          // 如果code为200则跳转到NewReport页面
+          if (res.data.code === 200) {
           // 将token存到userToken中
           this.userToken = res.data.data.token;
           // 将token本地存储到回话中
           localStorage.setItem("token", this.userToken);
-          // 如果code为200则跳转到NewReport页面
-          if (res.data.code === 200) {
-            this.$router.push('/main');
+            this.$router.push('/');
             this.$message({
               message: "恭喜你，登录成功",
               type: "success",
             });
           } else {
-            this.$message.error(res.data.data);
+            this.$message.error(res.data.msg);
           }
         })
         .catch((err) => {
@@ -90,10 +89,11 @@ export default {
 
 <!--加上scoped是将样式应用于此组件，不加是全局-->
 <style lang="sss" scoped>
+
 .login_box {
   width: 450px;
   height: 350px;
-  background-color: white;
+  background-color: rgb(253, 252, 252);
   border-radius: 10px;
   left: 50%;
   top: 30%;

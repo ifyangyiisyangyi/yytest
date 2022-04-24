@@ -8,7 +8,13 @@
         <el-table-column label="链接" width="500" align="center">
           <template slot-scope="scope">
             <div style="display: flex; justify-content: space-between">
-              <a :href="scope.row.link" target="_blank">{{ scope.row.link }}</a>
+              <!-- <a :href="scope.row.link" target="_blank">{{ scope.row.link }}</a> -->
+              <el-link
+                :href="scope.row.link"
+                :underline="false"
+                target="_blank"
+                >{{ scope.row.link }}</el-link
+              >
               <el-button
                 @click="copy(scope.row.link)"
                 type="success"
@@ -124,7 +130,6 @@ export default {
         },
       }).then((res) => {
         this.links = res.data.data.records;
-        console.log(this.links);
         this.totalCount = res.data.data.total;
       });
     },

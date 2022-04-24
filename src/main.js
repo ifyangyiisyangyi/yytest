@@ -15,11 +15,11 @@ Vue.prototype.$echarts = echarts
 Vue.prototype.$http = axios //修改内部的$http为axios
 const instance = axios.create({
   baseURL: "http://yycode.com.cn:8030",
-  timeout:2000
+  timeout: 2000
 })
 instance.interceptors.request.use(
   config => {
-    if(localStorage.getItem('token')) {
+    if (localStorage.getItem('token')) {
       config.headers.token = localStorage.getItem('token');
     }
     return config;
@@ -36,6 +36,19 @@ Vue.use(ElementUI);
 Vue.component('notification', Notification)
 Vue.use(Notification)
 
+
+// router 拦截器
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
+    if (localStorage.getItem('token')) {
+      next()
+    } else {
+      next({ path: '/login' })
+    }
+  } else {
+    next()
+  }
+})
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

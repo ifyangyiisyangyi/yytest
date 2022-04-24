@@ -104,7 +104,6 @@ export default {
         })
         .then((res) => {
           this.records = res.data.data.records;
-          console.log(this.records);
           this.totalCount = res.data.data.total;
         });
     },

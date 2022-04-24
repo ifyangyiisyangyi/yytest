@@ -11,12 +11,26 @@ Vue.use(Router)
 
 
 const routes = [
-  { path: '/', component: Login },
-  { path: '/login', redirect: '/' },
   {
-    path: '/main', component: Main, redirect: '/home', children: [
+    path: '/login',
+    component: Login
+
+  },
+  // { path: '/login', redirect: '/' },
+  {
+    path: '/',
+    component: Main,
+    redirect : '/home',
+    meta: {
+      requireAuth: true
+    },
+    children: [
       {
-        path: '/home', component: Home
+        path: '/home',
+        component: Home,
+        meta: {
+          requireAuth: true
+        },
       },
       { path: '/qaReport', component: QaReport },
       {
